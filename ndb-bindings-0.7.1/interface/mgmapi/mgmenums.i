@@ -59,6 +59,8 @@ enum ndb_mgm_node_status {
   NDB_MGM_NODE_STATUS_SINGLEUSER    = 7,
   /** Resume mode*/
   NDB_MGM_NODE_STATUS_RESUME        = 8,
+  /** connected node --> added in7.3.5*/
+  NDB_MGM_NODE_STATUS_CONNECTED = 9
 };
 
 enum ndb_mgm_event_severity {

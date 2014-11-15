@@ -157,13 +157,13 @@ public:
     case 9:
       startPhaseStr="Startup Phase 9. Update Internal variables.";
       break;
-    case 10:
-      startPhaseStr="Startup Phase 10. "
+    case 100:
+      startPhaseStr="Startup Phase 100. "
         "If node restart or initial node restart: "
         "API nodes may connect and send events.";
       break;
-    case 11:
-      startPhaseStr="Startup Phase 11. "
+    case 101:
+      startPhaseStr="Startup Phase 101 "
         "If node restart or initial node restart: "
         "taking responsibility for new transactions. "
         "After this pahse, the new node can now act as "
