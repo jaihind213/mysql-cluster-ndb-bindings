@@ -1,0 +1,16 @@
+Metadata-Version: 1.0
+Name: python-ndbapi
+Version: 0.1
+Summary: python wrapper of the NDBAPI
+Home-page: UNKNOWN
+Author: Monty Taylor
+Author-email: mtaylor@mysql.com
+License: GPL
+Description: python wrapper of the NDBAPI
+Platform: linux
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: License :: OSI Approved :: GPL
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

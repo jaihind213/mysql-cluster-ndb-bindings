@@ -1,0 +1,8 @@
+@GENERATED@
+ndbj.connectstring=localhost
+ndbj.mysqld=localhost
+ndbj.username=root
+ndbj.password=
+ndbj.testDatabase=test
+ndbj.lifecycle=development
+#ndbj.lifecycle=production

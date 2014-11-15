@@ -1,0 +1,24 @@
+Here's v0.1 of the python-ndbapi code. It's not all that pretty at the moment, it just directly wraps the C++ API in a not very pythonic manner. Later a wrapper class that actually behaves like a python class will come, but I'm focusing on API functionality first. 
+
+Also, it is _very_ incomplete. Essentially, I've just got enough to run the test program, which is a port from C++ of the ndbapi_simple_index.cpp in the API distro - with a few changes. The C++ code is in testndbapi. 
+
+To compile and use, you can either:
+  python setup.py install
+or 
+  python setup.py develop
+Do the latter if you think you'd like to hack on the code a little and don't want to reinstall every time. To clean up from develop, just do 
+  python setup.py develop --uninstall
+You will need SWIG, g++ and the ndbclient library. If yours isn't in /usr/lib/mysql/libndbclient.a, you'll have to edit setup.py. I'm static linking that ATM so I don't have to keep setting LD_LIBRARY_PATH in my environment. I've included the files that swig generates, so if you can't do swig for some reason, you can just compile the code by hand. Email me and I'll send you the command lines for that. 
+
+The test program, test.py, also wants you to have MySQLdb installed. It will connect to your local mysql, create a database and table. It connects as root, which is hardcoded. test.py takes two arguments, number_of_iterations an number_of_rows. Using the NDBAPI, it fills the table with number_of_rows, and then using both the NDBAPI and the MySQL API it does number_of_iterations simple selects. It reports times.
+
+On my laptop, I've been getting pretty consistently:
+Insert time for 10000: 1160637399.5 -- 1160637397.67
+         1.83314681053
+NDBAPI time for 10000: 1160637400.5 -- 1160637399.58
+         0.916406154633
+MySQL time for 10000: 1160637403.41 -- 1160637400.5
+         2.9126470089
+My CPU is totally pegged doing that, so the times scale pretty linearly. That translates to about 3.3k selects/sec using MySQL and ~10k/sec for NDB. 
+
+There's a good amount of work to be done with type mapping and adding api features. I'm planning on finishing synchronous before touching async, since I imagine passing in functions from python to act as callbacks might take a little effort. 

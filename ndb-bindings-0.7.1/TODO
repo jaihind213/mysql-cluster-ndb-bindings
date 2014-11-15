@@ -1,0 +1,142 @@
+alpha 1: 
+ 
+  done
+
+alpha 2:
+
+  character set conversions
+
+  type conversions
+
+    decimal
+
+    blob
+ 
+  Finish implementing java.sql.ResultSet vJDBC3
+
+  change NdbResultSet.get* impl to get the right kind of object from
+    the cluster
+
+beta 1:
+
+  initial docs 
+
+  tests: 
+
+    type conversions
+
+    errors (creating/faking)
+
+    JDBC tests for Blob, ResultSet
+
+    mgmapi 
+
+    basic operations
+
+  fully document ndb/j (move ndbapi docs to DynamicDocs)
+
+version 2 (all languages mgmapi released) 
+
+  finish implementing ResultSet JDBC4
+
+  implement java.sql.Transaction (XA support in NDB kernel)
+  
+  implement jcache
+
+  implement NdbRecord
+
+  push mgmpp and other C++ code into NDB API
+
+All languages v1: 
+
+  port and pass hugo tests
+
+  language differences documented
+
+C# v1: 
+
+  implement mgmapi events as events/delegates
+
+
+Assumptions: 
+
+  it is good to support more than one language
+
+  when swig produces code that isn't what we want, we should fix swig and 
+    send in patches
+
+  ndb/connectors already exists as a community product, we don't want to 
+    change workflow in anyway that will cause it to be less so
+
+
+Outstanding: 
+
+  Make sure java exception throwing doesn't segfault if it can't find the 
+  exception class. 
+
+  Make junit tests not print to stdout by default
+
+  NdbRecord - have NdbResultSetRecAttr and NdbResultSetNdbRecord that both 
+    implement java.sql.ResultSet. NdbRecord will keep a pinned byte array 
+    inside which stores the row result information.
+
+  XA Transactions - After an executeNoCommit, the only time a commit can fail
+    is if the TC dies before it has received the commit message from the API
+    or if it dies before the first datanode has received the Commit message. 
+    So to support the XA Commit/Rollback stuff, we'll fake it by doing all
+    executeNoCommits for the XA Prepare and then doing an executeCommit or an
+    executeRollback. There is a situation in which this can fail, but it's an 
+    edge case race condition.
+
+  Character sets and character set conversions
+
+  Getting NdbResultSet to store the right values internally so that all of the 
+    get* methods can work right. 
+
+  JavaSpaces, JMix, JCache 
+
+  Ask about NdbRecord method to retrieve size of needed buffer in bytes. 
+    - Spoke with Jonas, he said Frazer is adding this
+
+  ResultSets - implement a NdbOperationsProcessor callback mechanism that 
+    is passed in to an Operation. Then on transaction execute, you have 
+    Transaction call the NdbOperationsProcessor for each resultSet it has, 
+    and have it return a list of unprocessed ResultSets. 
+
+  Look at AbortOption and ExecType bollocks.
+
+  Figure out Ndb("")->NdbOperation("db.table"), why doesn't it work? How
+    should it work. Do we want to add a NdbOperation(schema="", table="")? 
+    If not, how do we do multi-schema transactions.
+
+  Do we need to use DeleteLocalRef in ndb_throw_exception()? 
+
+  Check use of ThrowNew(clazz,"Invalid exception class specified"); Do we need
+    a new jstring? 
+
+  Find errors in ndb_exception.i
+
+  Testing: 
+
+    Port testBasic  and see how that goes. 
+
+
+**** 
+
+NDB/Memcached
+
+  C Lib that implements libmemcached interface but talks to ndb. 
+    Drop in replacement. 
+
+  Memcache/bindings wrap of that lib as well
+
+  Implement libmemcached interfaces using NDB/J. 
+
+  Need to make a proxy server/protocol for NDB that speaks memcached protocol 
+  - because otherwise it's almost impossible to use from PHP.
+
+
+*****
+
+Need to add a startTransaction(Table,List<NdbKey>);
+

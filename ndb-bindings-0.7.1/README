@@ -1,0 +1,28 @@
+NDB/Bindings project. 
+
+Things are built with a normal ./configure; make.
+
+make install will install things, but isn't fully tested yet and YMMV between languages. Python and Perl should install totally properly. Java will install the JNI libs properly and should put the jar files in ${prefix}/share/java. 
+
+If you pulled from bzr and didn't get a tarball, you'll need to run autogen.sh first. 
+
+On RedHat systems, for Java, JAVA_HOME needs to be set properly. On Debian/Ubuntu systems, the alternatives system should work fine. 
+
+Please report bugs to the MySQL bug tracker at http://bugs.mysql.com. The tracker has an NDB/Bindings category for any NDB/Connectors related bugs. 
+
+Currently, the entire API's of the NDB API and MGM API are supported, although async transactions are only implemented in Java, Python and Perl and there are some datatype conversions that are missing. 
+
+ATTENTION: If you are using 64-bit system and 64-bit MySQL, you need to also use a 64-bit JVM. 
+
+**IMPORTANT** 
+For Java: At the moment, only JDK6 is supported. If you need 1.4 or 1.5, give me a shout and we can talk about how to accomplish that. 
+
+
+Internal development notes :
+
+You need the latest version of the bzr-mysql plugins. 
+In your ~/.bzr/bazaar.conf, you want to make sure the [DEFAULT] section
+has an entry for:
+email = You Name <your@email.com>
+allow_remote_options = mysql
+

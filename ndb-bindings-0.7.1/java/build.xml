@@ -1,0 +1,126 @@
+<!--
+ ! Ant build file for NDB/J
+ !-->
+<project name="cndb-java" basedir="." default="test">
+
+	<!-- JDBC URL to connect to MySQL for the tests -->
+	<property name="jdbcurl" value="jdbc:mysql://localhost/test"/>
+
+	<path id="project.cp">
+		<pathelement path="build"/>
+		<fileset dir="lib" includes="**/*.jar"/>
+	</path>
+
+	<!-- clean -->
+	<target name="clean">
+		<delete>
+			<fileset dir="build" includes="**/*.class"/>
+		</delete>
+	</target>
+
+	<!-- compile -->
+	<target name="compile">
+		<mkdir dir="build"/>
+		<javac srcdir="generated/java:src/java:test/java" 
+                    destdir="build" debug="true"
+			classpathref="project.cp">
+			<include name="com/mysql/**/*.java"/>
+			<include name="testsuite/**/*.java"/>
+		</javac>
+	</target>
+
+	<!--
+	 ! Create NDB/J jar file.
+	 ! TODO: manifest file
+	 !-->
+	<target name="jar" depends="compile">
+		<jar jarfile="ndbj.jar" basedir="build"
+			includes="com/mysql/cluster/**/*.class"/>
+	</target>
+
+	<!--
+	 ! Run all NDBJ and MGMJ tests.
+	 !-->
+	<target name="test" depends="compile">
+		<junit printsummary="true" haltonfailure="false"
+			haltonerror="false" fork="true">
+			<classpath>
+				<path refid="project.cp"/>
+			</classpath>
+
+			<formatter type="plain" usefile="false"/>
+
+			<test name="testsuite.ndbj.AllTests"/>
+			<!--
+			<test name="testsuite.mgmj.AllTests"/>
+			-->
+
+			<sysproperty key="java.library.path" value=".libs"/>
+			<sysproperty key="com.mysql.jdbc.testsuite.url"
+				value="${jdbcurl}"/>
+		</junit>
+	</target>
+
+	<!--
+	 ! Target to run a single test. Can be specified on the command-line,
+	 ! ant -Dndb.runtest.class=testsuite.ndbj.NdbScanFilterTest runtest
+	 ! Also useful to run testsuite.ndbj.AllTests with a different jvm/command.
+	 !-->
+	<property name="ndb.runtest.class" value="Please specify test to run"/>
+	<property name="ndb.runtest.jvm" value="java"/>
+
+	<target name="runtest" depends="compile">
+		<junit printsummary="withOutAndErr" haltonfailure="true"
+			haltonerror="true" fork="true" jvm="${ndb.runtest.jvm}">
+			<classpath>
+				<path refid="project.cp"/>
+			</classpath>
+
+			<formatter type="plain" usefile="false"/>
+
+			<test name="${ndb.runtest.class}"/>
+
+			<sysproperty key="java.library.path" value=".libs"/>
+			<sysproperty key="com.mysql.jdbc.testsuite.url"
+				value="${jdbcurl}"/>
+		</junit>
+	</target>
+
+	<!--
+	 ! Generate JavaDoc/API docs
+	 !-->
+	<target name="javadoc">
+		<javadoc packagenames="com.mysql.cluster.*"
+			destdir="javadoc" windowtitle="NDB/J API"
+			classpathref="project.cp">
+			<fileset dir="src/java" defaultexcludes="true">
+				<include name="com/**/*.java"/>
+				<exclude name="**/NdbBaseOperationEqualsImpl.java"/>
+				<exclude name="**/NdbBaseOperationResultsImpl.java"/>
+				<exclude name="**/NdbBlobImpl.java"/>
+				<exclude name="**/NdbBlobJDBCImpl.java"/>
+				<exclude name="**/NdbClusterConnectionImpl.java"/>
+				<exclude name="**/NdbEventOperationImpl.java"/>
+				<exclude name="**/NdbEventOperationResultsImpl.java"/>
+				<exclude name="**/NdbImpl.java"/>
+				<exclude name="**/NdbIndexOperationImpl.java"/>
+				<exclude name="**/NdbIndexScanOperationImpl.java"/>
+				<exclude name="**/ndbj.java"/>
+				<exclude name="**/NdbOperationImpl.java"/>
+				<exclude name="**/NdbRecAttrImpl.java"/>
+				<exclude name="**/NdbResultSetImpl.java"/>
+				<exclude name="**/NdbScanFilterImpl.java"/>
+				<exclude name="**/NdbScanOperationImpl.java"/>
+				<exclude name="**/NdbTransactionImpl.java"/>
+				<exclude name="**/ThrowingResultSet.java"/>
+				<exclude name="**/ThrowingResultSetJDBC4.java"/>
+				<exclude name="**/Util.java"/>
+			</fileset>
+			<doctitle><![CDATA[<h1>NDB/J API</h1>]]></doctitle>
+			<group title="Management API" packages="com.mysql.cluster.mgmj*"/>
+			<group title="NDB API" packages="com.mysql.cluster.ndbj*"/>
+		</javadoc>
+	</target>
+
+</project>
+
