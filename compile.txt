@@ -1,0 +1,30 @@
+Dependencies to build ndb bindings:
+-----------------------------------
+1) swig 1.3.31 (u can find swig here https://github.com/jaihind213/lego/tree/master/swig_1.3.31)
+3) mysql cluster installation, as it needs a few libraries from it.
+2) ant & java (make sure JAVA_HOME is set & ant binary is in PATH)
+
+Compiling Swig:
+---------------
+1) tar -xvf swig-1.3.31.tar.gz
+2) cd swig_1.3.31
+3) ./configure
+4) make
+5) sudo make install
+
+Checking for Swig:
+-----------------
+1)'which swig' #make sure its in PATH
+2) 'swig -version' #make sure its 1.3.31
+
+
+Compiling NDB bindings: 
+------------------------
+[Note: these steps help you compile the java ndb bindings]
+1) git clone https://github.com/jaihind213/mysql-cluster-ndb-bindings.git .
+2) cd  ndb-bindings-0.7.1
+3) edit compile.<os>.sh where os=linux/max
+3.1) set MYSQL_CLUSTER_HOME to absolute path
+4) ./compile.<os>.sh
+
+5) you should find the compile bindings(jars etc) under the directory 'ndb-bindings-0.7.1/ndbj_libs_deb'

@@ -1,0 +1,6 @@
+cd ndb-bindings-0.7.1/java/src/java
+javac -cp ../../../ndbj_libs_deb/lib:../../../ndbj_libs_deb/share/java/ndb-ndbj-0.7.1.jar:.  com/mysql/cluster/mgmj/examples/SampleMGMJ.java
+
+export LD_LIBRARY_PATH=../../../ndbj_libs_deb/lib
+# this program will try and connect to management node at localhost 
+java -cp ../../../ndbj_libs_deb/lib:../../../ndbj_libs_deb/share/java/ndb-ndbj-0.7.1.jar:com/mysql/cluster/mgmj/examples  com.mysql.cluster.mgmj.examples.SampleMGMJ

@@ -9,7 +9,7 @@ CURR_DIR=`pwd`
 LIB_INSTALL_DIR="${CURR_DIR}/ndbj_libs_deb"
 
 mkdir -p $LIB_INSTALL_DIR
-
+mkdir -p $LIB_INSTALL_DIR/lib
 
 echo .
 echo .
@@ -26,6 +26,13 @@ if [ "$MYSQL_CLUSTER_HOME" == "" ];then
         exit 0
 fi
 
+ant_installed=`which ant`
+echo $ant_installed
+
+if [ "$ant_installed" == "" ];then
+        echo "please add ant binary to PATH"
+        exit 0
+fi
 
 if [ "$JAVA_HOME" == "" ];then
         echo "please variable JAVA_HOME"
@@ -44,8 +51,12 @@ make install
 
 echo .
 echo .
- 
+
+echo "-----------------------------------------------------------------------------" 
 echo "You will need libndbclient.so.6.0.0  also , so "
 echo "copying libndbclient.so.6.0.0  from $MYSQL_CLUSTER_HOME/lib to $LIB_INSTALL_DIR "
 cp $MYSQL_CLUSTER_HOME/lib/libndbclient.so.6.0.0  $LIB_INSTALL_DIR/lib
+echo "The libraries are available here: $LIB_INSTALL_DIR/lib"
+echo "-----------------------------------------------------------------------------" 
+
 

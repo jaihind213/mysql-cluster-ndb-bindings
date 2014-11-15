@@ -2,6 +2,7 @@ mysql-cluster-ndb-bindings
 ==========================
 
 NDB bindings for MySQL Cluster. 
+
 The source code is from 
 https://launchpad.net/ndb-bindings. 
 
@@ -14,4 +15,10 @@ Hopefully, once the doors are opened to the NDBAPI for people outside of the C++
 -------------------------------------------------------------------------------------------
 Important Note: I am not the author of the source code which has been taken from launchPad.  
 -------------------------------------------------------------------------------------------
-I made a fix to it to make it work with mysql cluster 7.3
+Made changes to make it work with mysql cluster 7.3.
+
+How to compile ?
+I have listed steps on how to compile java bindings. kindly refer to compile.txt
+
+Running a sample java program using the binding ?
+kindly refer to run_sample.txt This sample program connects to a management node at 127.0.0.1:1186
