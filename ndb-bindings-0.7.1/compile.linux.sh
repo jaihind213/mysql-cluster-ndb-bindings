@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#################
+#set variable MYSQL_CLUSTER_HOME as it needs the libndbclient lib
+MYSQL_CLUSTER_HOME=
+#################
+
 CURR_DIR=`pwd`
 LIB_INSTALL_DIR="${CURR_DIR}/ndbj_libs_deb"
 
